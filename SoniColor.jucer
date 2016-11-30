@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="SuFn4r" name="SoniColor" projectType="guiapp" version="1.0.0"
+              bundleIdentifier="com.yourcompany.SoniColor" includeBinaryInAppConfig="1"
+              jucerVersion="4.2.3">
+  <MAINGROUP id="ubK37U" name="SoniColor">
+    <GROUP id="{21C03B41-A85E-A459-8608-AA509C3E84CD}" name="Source">
+      <FILE id="u75PhD" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+      <FILE id="r0NwHa" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="SoniColor"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="SoniColor"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_events" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_video" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <XCODE_IPHONE targetFolder="Builds/iOS" iosScreenOrientation="portrait" UIStatusBarHidden="1">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="SoniColor"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="SoniColor"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_events" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_video" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+      </MODULEPATHS>
+    </XCODE_IPHONE>
+    <ANDROIDSTUDIO targetFolder="Builds/AndroidStudio" androidSDKPath="" androidNDKPath=""
+                   androidMicNeeded="1">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" androidArchitectures="armeabi armeabi-v7a x86" isDebug="1"
+                       optimisation="1" targetName="SoniColor"/>
+        <CONFIGURATION name="Release" androidArchitectures="armeabi armeabi-v7a x86"
+                       isDebug="0" optimisation="3" targetName="SoniColor"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_events" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_video" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
+      </MODULEPATHS>
+    </ANDROIDSTUDIO>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_video" showAllCode="1" useLocalCopy="0"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>
