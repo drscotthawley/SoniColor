@@ -3,6 +3,8 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+#define SMOOTHING 4
+
 class MainContentComponent   : public AudioAppComponent,
                                public Timer
 {
@@ -20,23 +22,25 @@ public:
 
     void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override
     {
+        frame = 0;
+        avg.resize(SMOOTHING);
         startTimerHz(60);
     }
 
     void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override
     {
-        currentRMS[1] = currentRMS[0];
-        currentRMS[0] = bufferToFill.buffer->getRMSLevel(0, bufferToFill.startSample, bufferToFill.numSamples);
+        rms = bufferToFill.buffer->getRMSLevel(0, bufferToFill.startSample, bufferToFill.numSamples);
     }
 
     void releaseResources() override
     {
         stopTimer();
+        avg.clear();
     }
 
     void paint (Graphics& g) override
     {
-        g.setColour(minColour.interpolatedWith(maxColour, currentRMS[0]));
+        g.setColour(minColour.interpolatedWith(maxColour, intrp));
         g.fillAll();
     }
 
@@ -47,11 +51,27 @@ public:
 
     void timerCallback() override
     {
+        frame = (frame <= SMOOTHING) ? frame + 1 : 0;
+        
+        avg[frame] = rms;
+        
+        float sum = 0;
+        
+        for (std::vector<float>::iterator i = avg.begin(); i < avg.end(); ++i)
+        {
+            sum += *i;
+        }
+        
+        intrp = sum / avg.size();
+        
         repaint();
     }
 
 private:
-    float currentRMS[2];
+    int frame;
+    float rms;
+    float intrp;
+    std::vector<float> avg;
     
     Colour minColour = Colours::blue;
     Colour maxColour = Colours::red;
