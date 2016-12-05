@@ -3,10 +3,11 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-#define SMOOTHING 4
+#define SMOOTHING 6     /* Smoothing factor used to determine 
+                           color transition and sensitivity   */
 
 class MainContentComponent   : public AudioAppComponent,
-                               public Timer
+                               public MultiTimer
 {
 public:
     MainContentComponent()
@@ -22,25 +23,26 @@ public:
 
     void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override
     {
-        frame = 0;
-        avg.resize(SMOOTHING);
-        startTimerHz(60);
+        startTimer(TimerIDs::COLOR, 1000/30);  // Color interpolation
+        startTimer(TimerIDs::FRAME, 1000/60); // 60fps painting
     }
 
     void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override
     {
-        rms = bufferToFill.buffer->getRMSLevel(0, bufferToFill.startSample, bufferToFill.numSamples);
+        last = rms;
+        rms  = bufferToFill.buffer->getRMSLevel(0, bufferToFill.startSample, bufferToFill.numSamples);
     }
 
     void releaseResources() override
     {
-        stopTimer();
-        avg.clear();
+        stopTimer(TimerIDs::COLOR);
+        stopTimer(TimerIDs::FRAME);
+        last = rms = 0;
     }
 
     void paint (Graphics& g) override
     {
-        g.setColour(minColour.interpolatedWith(maxColour, intrp));
+        g.setColour(minColour.interpolatedWith(maxColour, currentColor));
         g.fillAll();
     }
 
@@ -49,29 +51,54 @@ public:
 
     }
 
-    void timerCallback() override
+    void timerCallback(int timerID) override
     {
-        frame = (frame <= SMOOTHING) ? frame + 1 : 0;
-        
-        avg[frame] = rms;
-        
-        float sum = 0;
-        
-        for (std::vector<float>::iterator i = avg.begin(); i < avg.end(); ++i)
+        switch (timerID)
         {
-            sum += *i;
+            case TimerIDs::COLOR:
+                
+                if (std::abs(rms - last) > 0.001)
+                {
+                    targetColor = expm1f((rms + last) / 2) * SMOOTHING;
+                }
+                
+                break;
+                
+            case TimerIDs::FRAME:
+                
+                if (currentColor < targetColor)
+                {
+                    currentColor += std::abs(currentColor - targetColor) / SMOOTHING;
+                }
+                else
+                {
+                    currentColor -= std::abs(currentColor - targetColor) / SMOOTHING;
+                }
+                
+                if (std::abs(rms - last) > 0.001)
+                {
+                    repaint();
+                }
+                
+                break;
+                
+            default:
+                break;
         }
-        
-        intrp = sum / avg.size();
-        
-        repaint();
     }
 
 private:
-    int frame;
     float rms;
-    float intrp;
-    std::vector<float> avg;
+    float last;
+    
+    float targetColor;
+    float currentColor;
+    
+    enum TimerIDs
+    {
+        FRAME,
+        COLOR
+    };
     
     Colour minColour = Colours::blue;
     Colour maxColour = Colours::red;
