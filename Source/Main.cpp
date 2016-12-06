@@ -9,7 +9,7 @@ public:
 
     const String getApplicationName() override       { return ProjectInfo::projectName; }
     const String getApplicationVersion() override    { return ProjectInfo::versionString; }
-    bool moreThanOneInstanceAllowed() override       { return true; }
+    bool moreThanOneInstanceAllowed() override       { return false; }
 
     void initialise (const String& commandLine) override
     {
@@ -23,16 +23,12 @@ public:
 
     void systemRequestedQuit() override
     {
-        // This is called when the app is being asked to quit: you can ignore this
-        // request and let the app carry on running, or call quit() to allow the app to close.
         quit();
     }
 
     void anotherInstanceStarted (const String& commandLine) override
     {
-        // When another instance of the app is launched while this one is running,
-        // this method is invoked, and the commandLine parameter tells you what
-        // the other instance's command-line arguments were.
+        quit();
     }
 
     class MainWindow    : public DocumentWindow
@@ -57,9 +53,6 @@ public:
 
         void closeButtonPressed() override
         {
-            // This is called when the user tries to close this window. Here, we'll just
-            // ask the app to quit when this happens, but you can change this to do
-            // whatever you need.
             JUCEApplication::getInstance()->systemRequestedQuit();
         }
 
