@@ -3,8 +3,8 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-#define SMOOTHING 6     /* Smoothing factor used to determine 
-                           color transition and sensitivity   */
+#define FrameTimer 0
+#define ColorTimer 1
 
 class MainContentComponent   : public AudioAppComponent,
                                public MultiTimer
@@ -23,8 +23,8 @@ public:
 
     void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override
     {
-        startTimer(TimerIDs::COLOR, 1000/30);  // Color interpolation
-        startTimer(TimerIDs::FRAME, 1000/60); // 60fps painting
+        startTimer(ColorTimer, 1000/30);  // Color interpolation
+        startTimer(FrameTimer, 1000/60); // 60fps painting
     }
 
     void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override
@@ -35,8 +35,8 @@ public:
 
     void releaseResources() override
     {
-        stopTimer(TimerIDs::COLOR);
-        stopTimer(TimerIDs::FRAME);
+        stopTimer(ColorTimer);
+        stopTimer(FrameTimer);
         last = rms = 0;
     }
 
@@ -55,24 +55,24 @@ public:
     {
         switch (timerID)
         {
-            case TimerIDs::COLOR:
+            case ColorTimer:
                 
                 if (std::abs(rms - last) > 0.001)
                 {
-                    targetColor = expm1f((rms + last) / 2) * SMOOTHING;
+                    targetColor = expm1f((rms + last) / 2) * (sensitivity/smoothing);
                 }
                 
                 break;
                 
-            case TimerIDs::FRAME:
+            case FrameTimer:
                 
                 if (currentColor < targetColor)
                 {
-                    currentColor += std::abs(currentColor - targetColor) / SMOOTHING;
+                    currentColor += std::abs(currentColor - targetColor) / smoothing;
                 }
                 else
                 {
-                    currentColor -= std::abs(currentColor - targetColor) / SMOOTHING;
+                    currentColor -= std::abs(currentColor - targetColor) / smoothing;
                 }
                 
                 if (std::abs(rms - last) > 0.001)
@@ -94,14 +94,10 @@ private:
     float targetColor;
     float currentColor;
     
-    enum TimerIDs
-    {
-        FRAME,
-        COLOR
-    };
+    uint8 sensitivity = 12, smoothing = 6;
     
-    Colour minColour = Colours::blue;
-    Colour maxColour = Colours::red;
+    Colour minColour = Colour(74, 168, 219);
+    Colour maxColour = Colour(227, 109, 80);
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };
