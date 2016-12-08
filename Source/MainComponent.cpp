@@ -3,11 +3,8 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-#define FrameTimer 0
-#define ColorTimer 1
-
 struct MainContentComponent   : public AudioAppComponent,
-                                public MultiTimer,
+                                public Timer,
                                 public Slider::Listener,
                                 public Button::Listener
 {
@@ -43,8 +40,7 @@ struct MainContentComponent   : public AudioAppComponent,
 
     void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override
     {
-        startTimer(ColorTimer, 1000/30);  // Color interpolation
-        startTimer(FrameTimer, 1000/60); // 60fps painting
+        startTimer(1000/30);
     }
 
     void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override
@@ -55,8 +51,7 @@ struct MainContentComponent   : public AudioAppComponent,
 
     void releaseResources() override
     {
-        stopTimer(ColorTimer);
-        stopTimer(FrameTimer);
+        stopTimer();
         last = rms = 0;
     }
 
@@ -117,53 +112,39 @@ struct MainContentComponent   : public AudioAppComponent,
         }
     }
 
-    void timerCallback(int timerID) override
+    void timerCallback() override
     {
-        switch (timerID)
+        if (!animator.isAnimating() && !settingsOpen)
         {
-            case ColorTimer:
-                
-                if (std::abs(rms - last) > 0.001)
-                {
-                    targetColour = expm1f((rms + last) / 2) * (sensitivity/smoothing);
-                }
-                
-                break;
-                
-            case FrameTimer:
-                
-                if (!animator.isAnimating() && !settingsOpen)
-                {
-                    settingsPanel.setVisible(false);
-                }
-                else
-                {
-                    if (!settingsPanel.isVisible())
-                    {
-                        settingsPanel.setVisible(true);
-                        settingsPanel.toBack();
-                    }
-                }
-                
-                if (currentColour < targetColour)
-                {
-                    currentColour += std::abs(currentColour - targetColour) / smoothing;
-                }
-                else
-                {
-                    currentColour -= std::abs(currentColour - targetColour) / smoothing;
-                }
-                
-                if (std::abs(rms - last) > 0.001)
-                {
-                    colourPanel.displayColour = Colour(minColour.interpolatedWith(maxColour, currentColour));
-                    colourPanel.repaint();
-                }
-                
-                break;
-                
-            default:
-                break;
+            settingsPanel.setVisible(false);
+        }
+        else
+        {
+            if (!settingsPanel.isVisible())
+            {
+                settingsPanel.setVisible(true);
+                settingsPanel.toBack();
+            }
+        }
+        
+        if (std::abs(rms - last) > 0.001)
+        {
+            targetColour = expm1f((rms + last) / 2) * (sensitivity/smoothing);
+        }
+        
+        if (currentColour < targetColour)
+        {
+            currentColour += std::abs(currentColour - targetColour) / smoothing;
+        }
+        else
+        {
+            currentColour -= std::abs(currentColour - targetColour) / smoothing;
+        }
+        
+        if (std::abs(rms - last) > 0.001)
+        {
+            colourPanel.displayColour = Colour(minColour.interpolatedWith(maxColour, currentColour));
+            colourPanel.repaint();
         }
     }
     
