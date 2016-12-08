@@ -33,7 +33,8 @@
         <MODULEPATH id="juce_audio_utils" path="../../Xcode/Plugin Development/Juce Projects/maverickjr/juce/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
-    <XCODE_IPHONE targetFolder="Builds/iOS" iosScreenOrientation="portrait" UIStatusBarHidden="1">
+    <XCODE_IPHONE targetFolder="Builds/iOS" iosScreenOrientation="portrait" UIStatusBarHidden="1"
+                  customPList="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#10;&#10;&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;&#10;&lt;plist&gt;&#10;&lt;dict&gt;&#10;    &lt;key&gt;NSMicrophoneUsageDescription&lt;/key&gt;&#10;    &lt;string&gt;Need microphone access for uploading videos&lt;/string&gt;&#10;&lt;/dict&gt;&#10;&lt;/plist&gt;">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="SoniColor"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="SoniColor"/>
