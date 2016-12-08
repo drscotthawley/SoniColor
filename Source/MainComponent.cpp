@@ -45,14 +45,14 @@ struct MainContentComponent   : public AudioAppComponent,
 
     void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override
     {
-        last = rms;
+        lastrms = rms;
         rms  = bufferToFill.buffer->getRMSLevel(0, bufferToFill.startSample, bufferToFill.numSamples);
     }
 
     void releaseResources() override
     {
         stopTimer();
-        last = rms = 0;
+        lastrms = rms = 0;
     }
 
     void mouseDown(const MouseEvent& e) override
@@ -74,8 +74,8 @@ struct MainContentComponent   : public AudioAppComponent,
         int w = screenSize.getWidth();
         int h = screenSize.getHeight();
         
-        settingsPanel.setBounds(0, 0, (w * 2)/3, h);
-        settingsButton.setBounds(w/23, w/23, (h/18)/1.2, h/18);
+        settingsPanel.setBounds(0, 0, (w * 2) / 3, h);
+        settingsButton.setBounds(w/23, w/23, (h/18) / 1.2, h/18);
         colourPanel.setBounds(0, 0, w, h);
         
         animationStartPoint = colourPanel.getBounds();
@@ -127,9 +127,9 @@ struct MainContentComponent   : public AudioAppComponent,
             }
         }
         
-        if (std::abs(rms - last) > 0.001)
+        if (std::abs(rms - lastrms) > 0.001)
         {
-            targetColour = expm1f((rms + last) / 2) * (sensitivity/smoothing);
+            targetColour = expm1f((rms + lastrms) / 2) * (sensitivity/smoothing);
         }
         
         if (currentColour < targetColour)
@@ -141,7 +141,7 @@ struct MainContentComponent   : public AudioAppComponent,
             currentColour -= std::abs(currentColour - targetColour) / smoothing;
         }
         
-        if (std::abs(rms - last) > 0.001)
+        if (std::abs(rms - lastrms) > 0.001)
         {
             colourPanel.displayColour = Colour(minColour.interpolatedWith(maxColour, currentColour));
             colourPanel.repaint();
@@ -160,7 +160,7 @@ struct MainContentComponent   : public AudioAppComponent,
             g.setColour(Colours::white.withAlpha((uint8) 64));
             
             for (int i = 0; i < 3; i++)
-                g.fillRoundedRectangle(0, ((h/3)-1) * i, w, h/6, h/12);
+                g.fillRoundedRectangle(0, ((h/3) - 1) * i, w, h/6, h/12);
         }
     };
     
@@ -187,7 +187,15 @@ struct MainContentComponent   : public AudioAppComponent,
             g.setColour(Colours::grey);
             
             g.setFont(h/24);
-            g.drawFittedText("Settings", 0, 10, w, h/24, Justification::centred, 1);
+            g.drawFittedText(
+                "Settings",
+                0,
+                10,
+                w,
+                h/24,
+                Justification::centred,
+                1
+            );
             
             
             g.setFont(h/48);
@@ -241,7 +249,7 @@ struct MainContentComponent   : public AudioAppComponent,
         Colour displayColour = Colours::black;
     };
     
-    float rms, last,
+    float rms, lastrms,
           targetColour, currentColour,
           sensitivity, smoothing;
     
