@@ -1,5 +1,5 @@
-#ifndef MAINCOMPONENT_H_INCLUDED
-#define MAINCOMPONENT_H_INCLUDED
+#ifndef MAINCOMPONENT_INCLUDED
+#define MAINCOMPONENT_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
@@ -12,7 +12,12 @@ class MainContentComponent   : public AudioAppComponent,
 public:
     MainContentComponent()
     {
-        setSize (800, 600);
+        screenSize = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
+        
+        int w = screenSize.getWidth();
+        int h = screenSize.getHeight();
+        
+        setSize (w, h);
         setAudioChannels (1, 0);
     }
 
@@ -98,6 +103,8 @@ private:
     
     Colour minColour = Colour(74, 168, 219);
     Colour maxColour = Colour(227, 109, 80);
+                                
+    Rectangle<int> screenSize;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };
