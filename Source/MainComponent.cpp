@@ -225,13 +225,8 @@ struct MainContentComponent   : public AudioAppComponent,
             int w = getWidth();
             int h = getHeight();
             
-            std::vector<Component*> components = {
-                &sensitivitySlider,
-                &smoothingSlider
-            };
-            
-            for (int i = 0; i < components.size(); ++i)
-                components[i]->setBounds(10, ((h/8) * i) + (i * h/16) + h/8, w - 20, h/8);
+            for (int i = 0; i < getNumChildComponents(); ++i)
+                getChildComponent(i)->setBounds(10, ((h/8) * i) + (i * h/16) + h/8, w - 20, h/8);
         }
         
         Slider sensitivitySlider;
