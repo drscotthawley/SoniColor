@@ -172,9 +172,17 @@ struct MainContentComponent   : public AudioAppComponent,
             sensitivitySlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
             addAndMakeVisible(sensitivitySlider);
             
+            sensitivityLabel.setText("Sensitivity", dontSendNotification);
+            sensitivityLabel.attachToComponent(&sensitivitySlider, false);
+            addAndMakeVisible(sensitivityLabel);
+            
             smoothingSlider.setRange(1, 12);
             smoothingSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
             addAndMakeVisible(smoothingSlider);
+            
+            smoothingLabel.setText("Smoothing", dontSendNotification);
+            smoothingLabel.attachToComponent(&smoothingSlider, false);
+            addAndMakeVisible(smoothingLabel);
         }
         
         void paint(Graphics& g) override
@@ -196,28 +204,6 @@ struct MainContentComponent   : public AudioAppComponent,
                 Justification::centred,
                 1
             );
-            
-            
-            g.setFont(h/48);
-            g.drawFittedText(
-                "Sensitivity",
-                sensitivitySlider.getX(),
-                sensitivitySlider.getY(),
-                sensitivitySlider.getWidth(),
-                h/48,
-                Justification::centred,
-                1
-            );
-            
-            g.drawFittedText(
-                "Smoothing",
-                smoothingSlider.getX(),
-                smoothingSlider.getY(),
-                smoothingSlider.getWidth(),
-                h/48,
-                Justification::centred,
-                1
-            );
         }
         
         void resized() override
@@ -226,11 +212,15 @@ struct MainContentComponent   : public AudioAppComponent,
             int h = getHeight();
             
             for (int i = 0; i < getNumChildComponents(); ++i)
-                getChildComponent(i)->setBounds(10, ((h/8) * i) + (i * h/16) + h/8, w - 20, h/8);
+                if (dynamic_cast<Slider*>(getChildComponent(i)))
+                    getChildComponent(i)->setBounds(10, ((h/8) * i) + (i * h/16) + h/8, w - 20, h/8);
         }
         
         Slider sensitivitySlider;
+        Label sensitivityLabel;
+        
         Slider smoothingSlider;
+        Label smoothingLabel;
     };
     
     struct ColourPanel : public Component
