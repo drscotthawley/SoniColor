@@ -164,24 +164,29 @@ struct MainContentComponent   : public AudioAppComponent,
         }
     };
     
-    struct SettingsPanel : public Component
+    struct SettingsPanel : public Component,
+                           public LookAndFeel_V3
     {
         SettingsPanel()
         {
             sensitivitySlider.setRange(1, 18);
             sensitivitySlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+            sensitivitySlider.setLookAndFeel(this);
             addAndMakeVisible(sensitivitySlider);
             
             sensitivityLabel.setText("Sensitivity", dontSendNotification);
             sensitivityLabel.attachToComponent(&sensitivitySlider, false);
+            sensitivityLabel.setLookAndFeel(this);
             addAndMakeVisible(sensitivityLabel);
             
             smoothingSlider.setRange(1, 12);
             smoothingSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+            smoothingSlider.setLookAndFeel(this);
             addAndMakeVisible(smoothingSlider);
             
             smoothingLabel.setText("Smoothing", dontSendNotification);
             smoothingLabel.attachToComponent(&smoothingSlider, false);
+            smoothingLabel.setLookAndFeel(this);
             addAndMakeVisible(smoothingLabel);
         }
         
@@ -192,7 +197,7 @@ struct MainContentComponent   : public AudioAppComponent,
             
             g.fillAll(Colours::darkgrey);
             
-            g.setColour(Colours::grey);
+            g.setColour(Colours::lightgrey);
             
             g.setFont(h/24);
             g.drawFittedText(
@@ -213,7 +218,27 @@ struct MainContentComponent   : public AudioAppComponent,
             
             for (int i = 0; i < getNumChildComponents(); ++i)
                 if (dynamic_cast<Slider*>(getChildComponent(i)))
-                    getChildComponent(i)->setBounds(10, ((h/8) * i) + (i * h/16) + h/8, w - 20, h/8);
+                    getChildComponent(i)->setBounds(10, ((h/16) * i) + h/8, w - 20, h/16);
+        }
+        
+        void drawLinearSlider(Graphics& g, int x, int y, int width, int height, float sliderPos, float minSliderPos, float maxSliderPos, const Slider::SliderStyle, Slider& s) override
+        {
+            width  = s.getWidth();
+            height = s.getHeight();
+            sliderPos = (s.getValue() == 1) ? 0 : s.getValue()/s.getMaximum();
+            
+            g.setColour(Colours::grey);
+            g.fillRoundedRectangle(0, (height/2) - (height/8), width, height/4, height/8);
+            
+            g.setColour(Colours::lightgrey);
+            g.fillRoundedRectangle(0, (height/2) - (height/8), sliderPos * (width), height/4, height/8);
+            g.fillEllipse(sliderPos * (width - height/2), (height/2) - (height/4), height/2, height/2);
+        }
+        
+        void drawLabel(Graphics& g, Label& l) override
+        {
+            g.setColour(Colours::lightgrey);
+            g.drawFittedText(l.getText(), 0, 0, l.getWidth(), l.getHeight(), Justification::centredLeft, 1);
         }
         
         Slider sensitivitySlider;
