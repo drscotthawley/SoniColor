@@ -115,12 +115,14 @@ struct MainContentComponent   : public AudioAppComponent,
                 {
                     calibrating = true;
                     settingsPanel.calibrateButton.setButtonText("Stop Calibration");
+                    settingsPanel.calibrateButton.setColour(TextButton::ColourIds::buttonColourId, Colours::palevioletred);
                 }
                 else
                 {
                     calibrating = false;
                     hasBeenCalibrated = true;
                     settingsPanel.calibrateButton.setButtonText("Reset Calibration");
+                    settingsPanel.calibrateButton.setColour(TextButton::ColourIds::buttonColourId, Colours::grey);
                 }
             }
             else
@@ -129,6 +131,7 @@ struct MainContentComponent   : public AudioAppComponent,
                 baseSensitivity   = 0;
                 hasBeenCalibrated = false;
                 settingsPanel.calibrateButton.setButtonText("Calibrate");
+                settingsPanel.calibrateButton.setColour(TextButton::ColourIds::buttonColourId, Colours::palegreen);
             }
         }
     }
@@ -207,28 +210,26 @@ struct MainContentComponent   : public AudioAppComponent,
     {
         SettingsPanel()
         {
+            setDefaultLookAndFeel(this);
+
             sensitivitySlider.setRange(1, 18);
             sensitivitySlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-            sensitivitySlider.setLookAndFeel(this);
             addAndMakeVisible(sensitivitySlider);
             
             sensitivityLabel.setText("Sensitivity", dontSendNotification);
             sensitivityLabel.attachToComponent(&sensitivitySlider, false);
-            sensitivityLabel.setLookAndFeel(this);
             addAndMakeVisible(sensitivityLabel);
             
             smoothingSlider.setRange(1, 12);
             smoothingSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-            smoothingSlider.setLookAndFeel(this);
             addAndMakeVisible(smoothingSlider);
             
             smoothingLabel.setText("Smoothing", dontSendNotification);
             smoothingLabel.attachToComponent(&smoothingSlider, false);
-            smoothingLabel.setLookAndFeel(this);
             addAndMakeVisible(smoothingLabel);
 
             calibrateButton.setButtonText("Calibrate");
-            calibrateButton.setLookAndFeel(this);
+            calibrateButton.setColour(TextButton::ColourIds::buttonColourId, Colours::palegreen);
             addAndMakeVisible(calibrateButton);
         }
         
@@ -282,7 +283,25 @@ struct MainContentComponent   : public AudioAppComponent,
             g.setColour(Colours::lightgrey);
             g.drawFittedText(l.getText(), 0, 0, l.getWidth(), l.getHeight(), Justification::centredLeft, 1);
         }
-        
+
+        void drawButtonBackground(Graphics& g, Button& b, const Colour& backgroundColour, bool isMouseOverButton, bool isButtonDown) override
+        {
+            int w = b.getWidth();
+            int h = b.getHeight();
+            g.setColour(backgroundColour);
+            g.fillRoundedRectangle(0, 0, w, h, 10);
+        }
+
+        void drawButtonText(Graphics& g, TextButton& b, bool isMouseOverButton, bool isButtonDown) override
+        {
+            int w = b.getWidth();
+            int h = b.getHeight();
+            String s = b.getButtonText();
+
+            g.setColour(Colours::darkgrey);
+            g.drawFittedText(s, 0, 0, w, h, Justification::centred, 1);
+        }
+
         Slider sensitivitySlider;
         Label sensitivityLabel;
         
