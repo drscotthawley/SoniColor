@@ -10,8 +10,9 @@ struct MainContentComponent   : public AudioAppComponent,
 {
     MainContentComponent()
     {
-        sensitivity = 12;
-        smoothing = 6;
+        baseSensitivity = 0;
+        sensitivity     = 12;
+        smoothing       = 6;
 
         addAndMakeVisible(settingsPanel);
 
@@ -26,6 +27,8 @@ struct MainContentComponent   : public AudioAppComponent,
         
         settingsPanel.smoothingSlider.setValue(smoothing);
         settingsPanel.smoothingSlider.addListener(this);
+
+        settingsPanel.calibrateButton.addListener(this);
         
         screenSize = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
         setSize (screenSize.getWidth(), screenSize.getHeight());
@@ -96,8 +99,38 @@ struct MainContentComponent   : public AudioAppComponent,
     
     void buttonClicked(Button* b) override
     {
-        settingsOpen = (settingsOpen) ? false : true;
-        triggerAnimation();
+        if (b == &settingsButton)
+        {
+            settingsOpen = (settingsOpen) ? false : true;
+            triggerAnimation();
+        }
+
+        if (b == &settingsPanel.calibrateButton)
+        {
+
+            if (!hasBeenCalibrated)
+            {
+
+                if (!calibrating)
+                {
+                    calibrating = true;
+                    settingsPanel.calibrateButton.setButtonText("Stop Calibration");
+                }
+                else
+                {
+                    calibrating = false;
+                    hasBeenCalibrated = true;
+                    settingsPanel.calibrateButton.setButtonText("Reset Calibration");
+                }
+            }
+            else
+            {
+                calibrating       = false;
+                baseSensitivity   = 0;
+                hasBeenCalibrated = false;
+                settingsPanel.calibrateButton.setButtonText("Calibrate");
+            }
+        }
     }
     
     void triggerAnimation()
@@ -129,7 +162,7 @@ struct MainContentComponent   : public AudioAppComponent,
         
         if (std::abs(rms - lastrms) > 0.001)
         {
-            targetColour = expm1f((rms + lastrms) / 2) * (sensitivity/smoothing);
+            targetColour = expm1f((rms + lastrms) / 2) * ((sensitivity + baseSensitivity)/smoothing);
         }
         
         if (currentColour < targetColour)
@@ -145,6 +178,11 @@ struct MainContentComponent   : public AudioAppComponent,
         {
             colourPanel.displayColour = Colour(minColour.interpolatedWith(maxColour, currentColour));
             colourPanel.repaint();
+        }
+
+        if (calibrating)
+        {
+            // calibration code
         }
     }
     
@@ -188,6 +226,10 @@ struct MainContentComponent   : public AudioAppComponent,
             smoothingLabel.attachToComponent(&smoothingSlider, false);
             smoothingLabel.setLookAndFeel(this);
             addAndMakeVisible(smoothingLabel);
+
+            calibrateButton.setButtonText("Calibrate");
+            calibrateButton.setLookAndFeel(this);
+            addAndMakeVisible(calibrateButton);
         }
         
         void paint(Graphics& g) override
@@ -217,7 +259,7 @@ struct MainContentComponent   : public AudioAppComponent,
             int h = getHeight();
             
             for (int i = 0; i < getNumChildComponents(); ++i)
-                if (dynamic_cast<Slider*>(getChildComponent(i)))
+                if (dynamic_cast<Slider*>(getChildComponent(i)) || dynamic_cast<TextButton*>(getChildComponent(i)))
                     getChildComponent(i)->setBounds(10, ((h/16) * i) + h/8, w - 20, h/16);
         }
         
@@ -246,6 +288,8 @@ struct MainContentComponent   : public AudioAppComponent,
         
         Slider smoothingSlider;
         Label smoothingLabel;
+
+        TextButton calibrateButton;
     };
     
     struct ColourPanel : public Component
@@ -261,9 +305,12 @@ struct MainContentComponent   : public AudioAppComponent,
     
     float rms, lastrms,
           targetColour, currentColour,
-          sensitivity, smoothing;
+          baseSensitivity, sensitivity,
+          smoothing;
     
-    bool settingsOpen = false;
+    bool settingsOpen      = false;
+    bool calibrating       = false;
+    bool hasBeenCalibrated = false;
     
     Colour minColour = Colour(74, 168, 219);
     Colour maxColour = Colour(227, 109, 80);
