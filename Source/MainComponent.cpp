@@ -185,7 +185,16 @@ struct MainContentComponent   : public AudioAppComponent,
 
         if (calibrating)
         {
-            // calibration code
+            if (targetColour < 1)
+            {
+                baseSensitivity += 0.25;
+            }
+            else
+            {
+                baseSensitivity -= 0.25;
+            }
+
+            std::cout << baseSensitivity << std::endl;
         }
     }
     
@@ -326,7 +335,7 @@ struct MainContentComponent   : public AudioAppComponent,
           targetColour, currentColour,
           baseSensitivity, sensitivity,
           smoothing;
-    
+
     bool settingsOpen      = false;
     bool calibrating       = false;
     bool hasBeenCalibrated = false;
