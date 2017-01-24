@@ -193,8 +193,6 @@ struct MainContentComponent   : public AudioAppComponent,
             {
                 baseSensitivity -= 0.25;
             }
-
-            std::cout << baseSensitivity << std::endl;
         }
     }
     
