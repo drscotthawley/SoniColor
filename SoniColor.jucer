@@ -14,7 +14,8 @@
     <XCODE_MAC targetFolder="Builds/MacOSX">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="SoniColor"/>
-        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="SoniColor"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="SoniColor"
+                       binaryPath="Binaries/"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../../Xcode/Plugin Development/JUCE/modules"/>
@@ -37,7 +38,8 @@
                   customPList="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#10;&#10;&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;&#10;&lt;plist&gt;&#10;&lt;dict&gt;&#10;    &lt;key&gt;NSMicrophoneUsageDescription&lt;/key&gt;&#10;    &lt;string&gt;Need microphone access for uploading videos&lt;/string&gt;&#10;&lt;/dict&gt;&#10;&lt;/plist&gt;">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="SoniColor"/>
-        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="SoniColor"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="SoniColor"
+                       binaryPath="Binaries/"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../../Xcode/Plugin Development/JUCE/modules"/>
@@ -62,7 +64,7 @@
         <CONFIGURATION name="Debug" androidArchitectures="armeabi armeabi-v7a x86" isDebug="1"
                        optimisation="1" targetName="SoniColor"/>
         <CONFIGURATION name="Release" androidArchitectures="armeabi armeabi-v7a x86"
-                       isDebug="0" optimisation="3" targetName="SoniColor"/>
+                       isDebug="0" optimisation="3" targetName="SoniColor" binaryPath="Binaries/"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../../Xcode/Plugin Development/JUCE/modules"/>
