@@ -59,28 +59,28 @@
       </MODULEPATHS>
     </XCODE_IPHONE>
     <ANDROIDSTUDIO targetFolder="Builds/AndroidStudio" androidSDKPath="" androidNDKPath=""
-                   androidMicNeeded="1">
+                   androidMinimumSDK="23" buildToolsVersion="25.0.2" microphonePermissionNeeded="1">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" androidArchitectures="armeabi armeabi-v7a x86" isDebug="1"
                        optimisation="1" targetName="SoniColor"/>
         <CONFIGURATION name="Release" androidArchitectures="armeabi armeabi-v7a x86"
-                       isDebug="0" optimisation="3" targetName="SoniColor" binaryPath="Binaries/"/>
+                       isDebug="0" optimisation="3" targetName="SoniColor"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_core" path="../../Xcode/Plugin Development/JUCE/modules"/>
-        <MODULEPATH id="juce_events" path="../../Xcode/Plugin Development/JUCE/modules"/>
-        <MODULEPATH id="juce_graphics" path="../../Xcode/Plugin Development/JUCE/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../../Xcode/Plugin Development/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../../Xcode/Plugin Development/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../../Xcode/Plugin Development/JUCE/modules"/>
-        <MODULEPATH id="juce_cryptography" path="../../Xcode/Plugin Development/JUCE/modules"/>
         <MODULEPATH id="juce_video" path="../../Xcode/Plugin Development/JUCE/modules"/>
         <MODULEPATH id="juce_opengl" path="../../Xcode/Plugin Development/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_basics" path="../../Xcode/Plugin Development/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_devices" path="../../Xcode/Plugin Development/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="../../Xcode/Plugin Development/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../Xcode/Plugin Development/JUCE/modules"/>
         <MODULEPATH id="juce_audio_utils" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../Xcode/Plugin Development/JUCE/modules"/>
       </MODULEPATHS>
     </ANDROIDSTUDIO>
   </EXPORTFORMATS>
